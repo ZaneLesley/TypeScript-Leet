@@ -11,12 +11,18 @@ class TreeNode {
 }
 
 function sufficientSubset(root: TreeNode | null, limit: number): TreeNode | null {
+    // We ran out of nodes
     if (root == null)
         return null;
+
+    // If we are at a leaf node
     if (root.left == null && root.right == null)
+        // We ran out of our budget from limit, so we return the node as null, deleting it
         return root.val < limit ? null : root;
+    // Traverse the tree, and save whatever node we get back, either the node we sent, or a null node, deleting it
     root.left = sufficientSubset(root.left, limit - root.val);
     root.right = sufficientSubset(root.right, limit - root.val);
+    // Both children are pruned, so we need to prune it as well
     return root.left == root.right ? null : root;
 }
 
